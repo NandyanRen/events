@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const PORT = 3005
 
-const userRouter = require('./routes/usersRoute')
+const userRouter = require('./usersRoute')
 const eventRouter = require('./routes/eventsRoute')
 
 app.use(express.json())
