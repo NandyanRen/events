@@ -1,18 +1,35 @@
 const User = require('../models/User');
 
 exports.getAllUsers = async(req, res, next) => {
-    res.send("User List")
+    try {
+        const [users, _] = await User.findAll()
+        res.status(200).json({users})
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
 }
 
 exports.createNewUser = async (req, res, next) => {
-    let {name} = req.body;
-    let user = new User(name)
-    user = await user.save()
-
-    console.log(user)
-    res.send('Create user')
+    try{
+        let {name} = req.body;
+        let user = new User(name)
+        user = await user.save()
+    
+        res.status(201).json({message: "User Created"})
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
 }
 
 exports.getUserById = async(req, res, next) => {
-    res.send("Get post By Id Route");
+    try {
+        let userId = req.params.id;
+        let [user, _] = await User.findById(userId)
+        res.status(200).json({user: user[0]})
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
 }
