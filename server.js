@@ -1,19 +1,14 @@
 const express = require('express')
 const app = express()
+const PORT = 3005
 
-app.use(logger)
+const userRouter = require('./routes/usersRoute')
+app.use(express.json())
 
 app.get('/', (req, res) => {
     res.json({message: "Error"})
 })
 
-const userRouter = require('./routes/users')
-
 app.use('/users', userRouter)
 
-function logger(req, res, next){
-    console.log(req.originalUrl)
-    next()
-}
-
-app.listen(3005)
+app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`))
