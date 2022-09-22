@@ -32,6 +32,19 @@ class Event {
         let sql = `SELECT * FROM events WHERE id = ${id};`
         return db.execute(sql);
     }
+    
+    update(id){
+        console.log("entered update")
+        let sql = `UPDATE events
+        SET name = '${this.name}', start_date = '${this.start_date}', end_date = '${this.end_date}'
+        WHERE id = ${id};`
+        return db.execute(sql);
+    }
+
+    static destroy(id){
+        let sql = `DELETE FROM events WHERE id = ${id};`
+        return db.execute(sql);
+    }
 
 }
 

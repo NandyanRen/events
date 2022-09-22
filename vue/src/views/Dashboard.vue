@@ -3,15 +3,15 @@
         <div class='w-1/2 m-auto border border-1 p-8'>
             <div class="flex justify-between">
                 <h1 class='font-medium text-2xl'>All Events</h1>
-                <router-link to="/submission" class="text-xl bg-gray-500 text-white rounded-md px-3 text-center">Add Event</router-link>
+                <router-link to="/event" class="text-xl bg-gray-500 text-white rounded-md px-3 text-center">Add Event</router-link>
             </div>
             <div>
-                {{ Events }}
-                <article v-for="event in event" v-bind:key="event.id">
+                {{ events }}
+                <article v-for="event in events" v-bind:key="event.id">
                     <div class="font-medium text-xl my-8 ">
-                        <router-link :to="{ name: 'Event', params: { id: event.id } }">{{ event.title }}</router-link>
+                        <router-link :to="{ name: 'UserEvent', params: { id: event.id } }">{{ event.name }}</router-link>
                     </div>
-                    <div v-html="event.body" class="truncate">{{  event.body }}</div>
+                    <div v-html="event.name" class="truncate">{{ event.name }}</div>
                 </article>
             </div>
         </div>
@@ -22,10 +22,10 @@
 <script>
 export default {
     computed: {
-        Events(){
+        events(){
             return this.$store.getters.allEvents;
         },
-        Users(){
+        users(){
             return this.$store.getters.allUsers;
         },
     },

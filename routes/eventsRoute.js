@@ -9,13 +9,7 @@ router.route("/")
 router
     .route('/:id')
     .get(eventController.getEventById)
-    // .put((req, res) => {
-    //     req.params.id
-    //     res.send(`Update Get With ID ${req.params.id}`)
-    // })
-    // .delete((req, res) => {
-    //     req.params.id
-    //     res.send(`Delete Get With ID ${req.params.id}`)
-    // })
+    .post(eventController.update)
+    .delete(eventController.destroy)
 
 module.exports = router

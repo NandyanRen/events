@@ -28,7 +28,6 @@ mutations:{
 actions:{
     getUsers({commit}){
         return axiosClient.get('/users').then((res) => {
-            console.log(res.data);
             commit("setUsersData", res.data);
             return res;
         });
@@ -46,7 +45,7 @@ actions:{
     },
     getEvents({ commit }) {
         return axiosClient.get(`events`).then((res) => {
-            commit("setEventsData", res.data);
+            commit("setEventsData", res.data.events);
             return res;
           });
     },
@@ -73,7 +72,6 @@ getters:{
     return state.users;
   },
   allEvents(state) {
-    console.log("events: " + state.events)
     return state.events;
   },
   getEvent(state){

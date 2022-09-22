@@ -33,3 +33,27 @@ exports.getEventById = async(req, res, next) => {
         next(error);
     }
 }
+
+exports.update = async(req, res, next) => {
+    try {
+        let eventId = req.params.id;
+        let {name, start_date, end_date} = req.body
+        let event = new Event(name, start_date, end_date)
+        event = await event.update(eventId)
+        res.status(201).json({ Message: "Event Successfully Updated"})
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+}
+
+exports.destroy = async(req, res, next) => {
+    try {
+        let eventId = req.params.id;
+        await Event.destroy(eventId)
+        res.status(201).json({ Message: "Event Successfully Deleted"})
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+}

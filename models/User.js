@@ -6,7 +6,6 @@ class User {
     }
 
     save() {
-
         let sql =
             `INSERT INTO users (name)
             VALUES ('${this.name}')`
