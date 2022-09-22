@@ -40,7 +40,7 @@ exports.update = async(req, res, next) => {
         let {name, start_date, end_date} = req.body
         let event = new Event(name, start_date, end_date)
         event = await event.update(eventId)
-        res.status(201).json({ Message: "Event Successfully Updated"})
+        res.status(200).json({ Message: "Event Successfully Updated"})
     } catch (error) {
         console.log(error);
         next(error);

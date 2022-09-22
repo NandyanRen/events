@@ -11,6 +11,8 @@
                         <router-link :to="{ name: 'UserEvent', params: { id: event.id } }">{{ event.name }}</router-link>
                     </div>
                     <div v-html="event.name" class="truncate">{{ event.name }}</div>
+
+                    <div @click="deleteEvent(event.id)">Delete</div>
                 </article>
             </div>
         </div>
@@ -19,6 +21,7 @@
 </template>
 
 <script>
+import VModal from 'vue-js-modal'
 export default {
     computed: {
         events(){
@@ -34,7 +37,10 @@ export default {
         },
         fetchUsers(){
             this.$store.dispatch("getUsers");
-        }
+        },
+        deleteEvent(id){
+            this.$store.dispatch("deleteEvent", id);
+        },
     },
     beforeMount() {
         this.fetchEvents();
