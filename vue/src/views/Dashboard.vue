@@ -6,7 +6,6 @@
                 <router-link to="/event" class="text-xl bg-gray-500 text-white rounded-md px-3 text-center">Add Event</router-link>
             </div>
             <div>
-                {{ events }}
                 <article v-for="event in events" v-bind:key="event.id">
                     <div class="font-medium text-xl my-8 ">
                         <router-link :to="{ name: 'UserEvent', params: { id: event.id } }">{{ event.name }}</router-link>

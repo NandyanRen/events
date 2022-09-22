@@ -34,14 +34,14 @@ actions:{
     },
     getUserId({ commit }, id) {
         return axiosClient
-          .get(`user/${id}`)
+          .get(`users/${id}`)
           .then((res) => {
             commit("setCurrentUser", res.data);
             return res;
           });
     },
     saveUser({ commit }, user){
-      return axiosClient.post("/user", user);
+      return axiosClient.post("/users", user);
     },
     getEvents({ commit }) {
         return axiosClient.get(`events`).then((res) => {
@@ -58,13 +58,14 @@ actions:{
         });
     },
     saveEvent({ commit }, event){
-      return axiosClient.post("/event", event);
+      console.log(event.start_date, + " " + event.name)
+      return axiosClient.post("/events", event);
     },
     updateEvent({ commit }, id){
-      return axiosClient.update(`event/${id}`);
+      return axiosClient.update(`events/${id}`);
     },
     deleteEvent({ commit }, id){
-      return axiosClient.delete(`event/${id}`);
+      return axiosClient.delete(`events/${id}`);
     },
 },
 getters:{

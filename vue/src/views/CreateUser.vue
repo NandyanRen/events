@@ -4,19 +4,11 @@
         <div class="flex justify-between">
             <router-link :to="{ name: 'Dashboard' }" class="pb-1 bg-gray-500 text-white rounded-md px-3 text-center">Back</router-link>
         </div>
-            <div>
-                <div class="font-medium text-2xl my-8">
-                    Have a story to tell?
-                </div>
-            </div>
 
             <form @submit.prevent="savePost">
-                <div class="mb-2 font-medium">Write your story below:</div>
                     <div class="flex flex-col">
-                        <input type="type" name="title" id="title" v-model="title" required="" maxlength="50" placeholder="Title..."
+                        <input type="type" name="name" id="name" v-model="name" required="" maxlength="50" placeholder="Name..."
                             class="border border-1 px-2 mb-2"/>
-                        <textarea rows="7" name="body" id="body" v-model="body" required="" minlength="180" placeholder="Write your story here..."
-                        class="border border-1 px-2 mb-2"/>
                     </div>
             
                 <div class="flex mb-8 justify-end px-2">
@@ -33,17 +25,15 @@
 export default {
         data(){
             return {
-                title:null,
-                body:null,
+                name:null,
             }
         },
         methods:{
             savePost(){
                 let model = {
-                    title: this.title,
-                    body: this.body,
+                    name: this.name,
                 }
-                this.$store.dispatch("savePost", model)
+                this.$store.dispatch("saveUser", model)
                 .then(setTimeout(() => this.$router.push({name: "Dashboard"}), 500));
             }
         },
