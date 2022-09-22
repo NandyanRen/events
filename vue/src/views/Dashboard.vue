@@ -27,16 +27,10 @@ export default {
         events(){
             return this.$store.getters.allEvents;
         },
-        users(){
-            return this.$store.getters.allUsers;
-        },
     },
     methods:{
         fetchEvents(){
             this.$store.dispatch("getEvents");
-        },
-        fetchUsers(){
-            this.$store.dispatch("getUsers");
         },
         deleteEvent(id){
             this.$store.dispatch("deleteEvent", id);
@@ -44,7 +38,6 @@ export default {
     },
     beforeMount() {
         this.fetchEvents();
-        this.fetchUsers();
     },
 }
 </script>

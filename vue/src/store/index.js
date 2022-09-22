@@ -59,15 +59,6 @@ actions:{
     },
     saveEvent({ commit }, event){
       return axiosClient.post("/events", event);
-      // return new Promise((resolve, reject) => {
-      //   axiosClient.post("/events", event)
-      //     .then((response) => {
-      //       resolve(response);
-      //     })
-      //     .catch((error) => {
-      //       reject(error);
-      //     });
-      // });
     },
     updateEvent({ commit }, id){
       return axiosClient.post(`events/${id}`);

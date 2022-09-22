@@ -1,10 +1,17 @@
 <template>
     <div class='flex h-screen justify-center items-center'>
         <div class=' h-full m-auto border border-1 p-8'>
-        <div class="flex justify-between">
-            <router-link :to="{ name: 'Dashboard' }" class="pb-1 bg-gray-500 text-white rounded-md px-3 text-center mb-5">Back</router-link>
-        </div>
+            <div class="flex justify-between">
+                <router-link :to="{ name: 'Dashboard' }" class="pb-1 bg-gray-500 text-white rounded-md px-3 text-center mb-5">Back</router-link>
+            </div>
 
+            <div class="absolute top-0 left-0 right-0 bottom-0 z-40 bg-opacity-80" v-if="showModal"></div>
+            <div class="absolute top-14 left-1/3 z-50 w-1/3 bg-gray-200 border-1 p-6" v-if="showModal">
+                <h1>{{  this.responseData }}</h1>
+                <div class="flex justify-end px-2">
+                    <button class="rounded-md py-1 px-4 content-end border border-transparent text-white bg-red-500 mt-5" @click="toDashboard(success)">Close</button>
+                </div>
+            </div>
 
             <form @submit.prevent="saveEvent">
                     <div class="flex flex-col">
@@ -22,14 +29,14 @@
                     </button>
                 </div>
             </form>
-            <div class="absolute top-0 left-0 right-0 bottom-0 z-40 bg-opacity-80" v-if="showModal"></div>
-            <div class="absolute top-14 left-1/3 z-50 w-1/3 bg-gray-200 border-1 p-6" v-if="showModal">
-                <h1>{{  this.responseData }}</h1>
-                <div class="flex justify-end px-2">
-                    <button class="rounded-md py-1 px-4 content-end border border-transparent text-white bg-red-500 mt-5" @click="toDashboard(success)">Close</button>
+                {{ filteredUsers }}
+                <input type="text" class="bg-gray-100 px-4 py-2" autocomplete="off" v-model="selectedUser" @input="filterUsers">
+                <div v-if=filteredUsers>
+                    <ul>
+                        <li v-for="filteredUser in filteredUsers">{{  filteredUser }}</li>
+                    </ul>
                 </div>
             </div>
-        </div>
     </div>
 </template>
 
@@ -40,6 +47,12 @@ import 'vue2-datepicker/index.css';
 
 export default {
         components: { DatePicker },
+        computed: {
+            users(){
+                return this.$store.getters.allUsers;
+            },
+            
+        },
         data(){
             return {
                 name:null,
@@ -49,10 +62,16 @@ export default {
                 end_time: new Date(),
                 showModal: false,
                 responseData: null,
-                success: false
+                success: false,
+                usersArr: Object.values(this.$store.getters.allUsers.users),
+                selectedUser: '',
+                filteredUsers: [],
             }
         },
         methods:{
+            fetchUsers(){
+                this.$store.dispatch("getUsers");
+            },
             saveEvent(){
                 let model = {
                     name: this.name,
@@ -90,7 +109,16 @@ export default {
                     setTimeout(() => this.$router.push({name: "Dashboard"}), 500)
 
                 this.showModal = false
-            }
+            },
+            filterUsers(){
+                console.log(this.usersArr)
+                // this.filteredUsers = this.usersArr.filter(selectedUser => {
+                //     return selectedUser.name.toLowerCase().startsWith(this.selectedUser.toLowerCase())
+                // })
+            },
+        },
+        beforeMount() {
+            this.fetchUsers();
         },
     }
 </script>
