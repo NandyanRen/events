@@ -8,15 +8,6 @@ class Event {
     }
 
     save() {
-        // const d = new Date();
-        // let yyy = d.getFullYear();
-        // let mm = d.getMonth() + 1;
-        // let dd = d.getDate();
-
-        // let time = d.getTime();
-
-        // let createdAtDate = `${yyyy}-${mm}-${dd} ${time}`;
-
         let sql =
             `INSERT INTO events (name, start_date, end_date)
             VALUES ('${this.name}', '${this.start_date}', '${this.end_date}')`
