@@ -1,10 +1,11 @@
 <template>
     <div class='flex h-screen justify-center items-center'>
         <div class='w-1/2 h-full m-auto border border-1 p-8'>
+        <!-- Back action button -->
         <div class="flex justify-between">
             <router-link :to="{ name: 'Dashboard' }" class="pb-1 bg-gray-500 text-white rounded-md px-3 text-center mb-2">Back</router-link>
         </div>
-
+        <!-- Pop up Modal -->
         <div class="absolute top-0 left-0 right-0 bottom-0 z-40 bg-opacity-80" v-if="showModal"></div>
             <div class="absolute top-14 left-1/3 z-50 w-1/3 bg-gray-200 border-1 p-6" v-if="showModal">
                 <h1>{{  this.responseData }}</h1>
@@ -12,8 +13,8 @@
                     <button class="rounded-md py-1 px-4 content-end border border-transparent text-white bg-red-500 mt-5" @click="toDashboard(success)">Close</button>
                 </div>
         </div>
-
-            <form @submit.prevent="savePost">
+        <!-- User name form -->
+            <form @submit.prevent="saveUser">
                 <div class="flex flex-col">
                     <input type="type" name="name" id="name" v-model="name" required="" maxlength="50" placeholder="Name..."
                         class="border border-1 px-2 mb-2"/>
@@ -38,7 +39,7 @@ export default {
             }
         },
         methods:{
-            savePost(){
+            saveUser(){
                 let model = {
                     name: this.name,
                 }

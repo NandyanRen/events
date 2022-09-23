@@ -1,11 +1,12 @@
 <template>
     <div class='flex h-screen justify-center items-center'>
         <div class=' h-full m-auto border border-1 p-8'>
+            <!-- Back and Delete Actions -->
             <div class="flex justify-between">
                 <router-link :to="{ name: 'Dashboard' }" class="pb-1 bg-gray-500 text-white rounded-md px-3 text-center mb-5">Back</router-link>
                 <button @click="deleteEvent" class="pb-1 bg-red-500 text-white rounded-md px-3 text-center mb-5">Delete</button>
             </div>
-
+            <!-- Pop up Modal -->
             <div class="absolute top-0 left-0 right-0 bottom-0 z-40 bg-opacity-80" v-if="showModal"></div>
                 <div class="absolute top-14 left-1/3 z-50 w-1/3 bg-gray-200 border-1 p-6" v-if="showModal">
                     <h1>{{  this.responseData }}</h1>
@@ -13,7 +14,7 @@
                         <button class="rounded-md py-1 px-4 content-end border border-transparent text-white bg-red-500 mt-5" @click="toDashboard(success)">Close</button>
                     </div>
                 </div>
-
+                <!-- Date and Time Picker -->
                 <div class="flex flex-col space-y-2 ">
                     <input type="type" name="title" id="title" v-model="title" required="" maxlength="25" placeholder="Title"
                         class="border border-1 px-2 lg:w-full w-2/3"/>
@@ -22,7 +23,7 @@
                         <date-picker class="mr-2" v-model="start_time" type="time" format="hh:mm a" :default-value="new Date().getHours" :disabled-time="notBeforeEightOClock" :minute-step="5"></date-picker>
                         <date-picker v-model="end_time" type="time" format="hh:mm a" :default-value="new Date().getHours" :disabled-time="notBeforeEightOClock" :minute-step="5"></date-picker>
                     </div>
-
+                    <!-- User Search -->
                     <input type="type" name="userName" id="userName" v-model="userName" required="" maxlength="25" placeholder="Name"
                     class="border border-1 px-2 mb-2 lg:w-full w-2/3"/>
                     <button @click="searchUser" type="button"
@@ -33,11 +34,11 @@
                     <h1 class="font-bold">Guests</h1>
                     <ul class="space-y-1">
                         <li class="bg-green-100 w-1/2 rounded p-1" v-for="(guest, index) in guests">
-                            <button class="cursor-pointer p-1" @click="removeTask(index)">x</button>
+                            <button class="cursor-pointer p-1" @click="removeUser(index)">x</button>
                             {{ guest.name }}
                         </li>
                     </ul>
-
+                <!-- Submit Form -->
                 </div>
                 <div class="flex mb-8 justify-end px-2">
                     <button type="submit" @click="saveEvent" class="mt-5 w-1/4 content-end py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-700">
@@ -61,7 +62,6 @@ export default {
         data(){
             return {
                 title:null,
-                // dateToday: new Date(),
                 date: new Date(),
                 start_time: new Date(),
                 end_time: new Date(),
@@ -74,6 +74,7 @@ export default {
             }
         },
         methods:{
+            // Fetch event data if selected from existing event
             fetchEvent(){
                 if(this.$route.params.id != 0){
                     this.$store.dispatch("getEventId", this.$route.params.id).then(response => {
@@ -93,6 +94,7 @@ export default {
                     })
                 }
             },
+            // Get Data from fields
             saveEvent(){
                 let model = {
                     id: this.$route.params.id,
@@ -100,7 +102,9 @@ export default {
                     start_date: this.date + " " + this.start_time.getHours() + ":" + this.start_time.getMinutes() + ":" + "00",
                     end_date: this.date + " " + this.end_time.getHours() + ":" + this.end_time.getMinutes() + ":" + "00",
                 }
+                // Check if a title or tagged name is empty
                 if(this.validateForm()){
+                    // Checks if event id exists, will move to update if true
                     if(this.$route.params.id == 0){
                         this.$store.dispatch("saveEvent", model)
                         .then(response => {
@@ -139,16 +143,17 @@ export default {
                     return this.showModal = true
                 }
             },
+            // Doesn't allow date before today selection on date picker
             disabledBeforeTodayAndAfterAWeek(date) {
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
                 return date < today;
             },
+            // Doesn't allow time before 8am and after 8pm
             notBeforeEightOClock(date) {
-                // if(this.date < this.dateToday)
                 return date.getHours() < 8 || date.getHours() > 19;
-                // return date.getHours() < this.dateToday.getHours || date.getHours() > 19;
             },
+            // Go to dashboard if creation/update is successful
             toDashboard(success) {
                 if(success)
                     setTimeout(() => this.$router.push({name: "Dashboard"}), 500)
@@ -169,7 +174,8 @@ export default {
                     }
                 })
             },
-            removeTask(index){
+            // Clicking x beside tagged user will remove them from tagged list
+            removeUser(index){
                 this.guests.splice(index, 1)
             },
             validateForm(){
