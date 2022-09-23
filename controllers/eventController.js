@@ -12,8 +12,8 @@ exports.getAllEvents = async(req, res, next) => {
 
 exports.createNewEvent  = async (req, res, next) => {
     try{
-        let {name, start_date, end_date} = req.body;
-        let event = new Event(name, start_date, end_date)
+        let {title, start_time, end_time} = req.body;
+        let event = new Event(title, start_time, end_time)
         event = await event.save()
         res.status(201).json({message: "event Created"})
     } catch (error) {
@@ -36,10 +36,10 @@ exports.getEventById = async(req, res, next) => {
 exports.update = async(req, res, next) => {
     try {
         let eventId = req.params.id;
-        let {name, start_date, end_date} = req.body
-        let event = new Event(name, start_date, end_date)
+        let {title, start_time, end_time} = req.body
+        let event = new Event(title, start_time, end_time)
         event = await event.update(eventId)
-        res.status(200).json({ Message: "Event Successfully Updated"})
+        res.status(200).json({ Message: "Event Successfully updated"})
     } catch (error) {
         console.log(error);
         next(error);

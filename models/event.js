@@ -1,16 +1,16 @@
 var db = require('../config/db')
 
 class Event {
-    constructor(name, start_date, end_date) {
-        this.name = name
-        this.start_date = start_date
-        this.end_date = end_date
+    constructor(title, start_time, end_time) {
+        this.title = title
+        this.start_time = start_time
+        this.end_time = end_time
     }
 
     save() {
         let sql =
-            `INSERT INTO events (name, start_date, end_date)
-            VALUES ('${this.name}', '${this.start_date}', '${this.end_date}')`
+            `INSERT INTO events (title, start_time, end_time)
+            VALUES ('${this.title}', '${this.start_time}', '${this.end_time}')`
         return db.execute(sql)
     }
 
@@ -25,9 +25,8 @@ class Event {
     }
     
     update(id){
-        console.log("entered update")
         let sql = `UPDATE events
-        SET name = '${this.name}', start_date = '${this.start_date}', end_date = '${this.end_date}'
+        SET title = '${this.title}', start_time = '${this.start_time}', end_time = '${this.end_time}'
         WHERE id = ${id};`
         return db.execute(sql);
     }

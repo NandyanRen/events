@@ -13,10 +13,10 @@
             <div>
                 <article v-for="event in events" v-bind:key="event.id">
                     <div class="font-medium text-xl my-5 ">
-                        <router-link :to="{ name: 'CreateEvent', params: { id: event.id } }">{{ event.name }}</router-link>
+                        <router-link :to="{ name: 'CreateEvent', params: { id: event.id } }">{{ event.title }}</router-link>
                     </div>
-                    <div>{{ event.start_date }}</div>
-                    <div>{{ event.end_date }}</div>
+                    <div>{{ event.start_time}}</div>
+                    <div>{{ event.end_end }}</div>
                 </article>
             </div>
 

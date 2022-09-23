@@ -79,7 +79,7 @@ export default {
                 if(this.$route.params.id != 0){
                     this.$store.dispatch("getEventId", this.$route.params.id).then(response => {
                         console.log(response.data.event)
-                        let newDate = new Date(response.data.event.start_date)
+                        let newDate = new Date(response.data.event.start_time)
                         let newDateMonth = newDate.getMonth() + 1
                         let newDateDay = newDate.getDate()
                         if(newDateMonth.toString().length == 1)
@@ -87,7 +87,7 @@ export default {
                         if(newDateDay.toString().length == 1)
                             newDateDay = "0" + newDateDay.toString()
 
-                        this.title = response.data.event.name
+                        this.title = response.data.event.title
                         this.date = newDate.getFullYear().toString() + "-" + newDateMonth + "-" + newDateDay
                         this.start_date = newDate.getHours()
                         this.end_date = newDate.setHours(9,0,0,0)
@@ -98,9 +98,9 @@ export default {
             saveEvent(){
                 let model = {
                     id: this.$route.params.id,
-                    name: this.title,
-                    start_date: this.date + " " + this.start_time.getHours() + ":" + this.start_time.getMinutes() + ":" + "00",
-                    end_date: this.date + " " + this.end_time.getHours() + ":" + this.end_time.getMinutes() + ":" + "00",
+                    title: this.title,
+                    start_time: this.date + " " + this.start_time.getHours() + ":" + this.start_time.getMinutes() + ":" + "00",
+                    end_time: this.date + " " + this.end_time.getHours() + ":" + this.end_time.getMinutes() + ":" + "00",
                 }
                 // Check if a title or tagged name is empty
                 if(this.validateForm()){
@@ -186,7 +186,7 @@ export default {
             deleteEvent(){
                 if(confirm(`Are you sure you want to delete this Event?`)){
                     this.$store.dispatch("deleteEvent", this.$route.params.id)
-                    .then(this.$router.push({name: "Dashboard"}));
+                    .then(setTimeout(() => this.$router.push({name: "Dashboard"}), 500));
                 }
             },
         },
