@@ -9,7 +9,7 @@ export default new Vuex.Store({
     users: {},
     currentUser: {},
     events: {},
-    currentEvent:{},
+    currentUserEvent:{},
 },
 mutations:{
     setUsersData: (state, data) => {
@@ -51,7 +51,7 @@ actions:{
     },
     getEventId({ commit }, id) {
       return axiosClient
-        .get(`event/${id}`)
+        .get(`events/${id}`)
         .then((res) => {
           commit("setCurrentEvent", res.data);
           return res;
@@ -60,8 +60,9 @@ actions:{
     saveEvent({ commit }, event){
       return axiosClient.post("/events", event);
     },
-    updateEvent({ commit }, id){
-      return axiosClient.post(`events/${id}`);
+    updateEvent({ commit }, event){
+      console.log(event.id)
+      return axiosClient.post(`events/${event.id}`, event);
     },
     deleteEvent({ commit }, id){
       return axiosClient.delete(`events/${id}`);
@@ -74,11 +75,11 @@ getters:{
   allEvents(state) {
     return state.events;
   },
-  getEvent(state){
-    return state.currentEvent
-  },
   getUser(state){
     return state.currentUser
+  },
+  getEvent(state){
+    return state.currentEvent
   },
 },
 modules:{},
