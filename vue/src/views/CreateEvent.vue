@@ -134,6 +134,9 @@ export default {
                             return
                         })
                     }
+                } else {
+                    this.responseData = "Enter Title and User to Tag"
+                    return this.showModal = true
                 }
             },
             disabledBeforeTodayAndAfterAWeek(date) {
