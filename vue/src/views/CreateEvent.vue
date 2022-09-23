@@ -19,8 +19,8 @@
                         class="border border-1 px-2 lg:w-full w-2/3"/>
                     <div class="space-y-2">
                         <date-picker class="mr-2" v-model="date" valueType="format" :default-value="new Date()" :disabled-date="disabledBeforeTodayAndAfterAWeek"></date-picker>
-                        <date-picker class="mr-2" v-model="start_time" type="time" format="HH:mm a" :default-value="new Date().getHours" :disabled-time="notBeforeEightOClock" :minute-step="5"></date-picker>
-                        <date-picker v-model="end_time" type="time" format="HH:mm a" :default-value="new Date().getHours" :disabled-time="notBeforeEightOClock" :minute-step="5"></date-picker>
+                        <date-picker class="mr-2" v-model="start_time" type="time" format="hh:mm a" :default-value="new Date().getHours" :disabled-time="notBeforeEightOClock" :minute-step="5"></date-picker>
+                        <date-picker v-model="end_time" type="time" format="hh:mm a" :default-value="new Date().getHours" :disabled-time="notBeforeEightOClock" :minute-step="5"></date-picker>
                     </div>
 
                     <input type="type" name="userName" id="userName" v-model="userName" required="" maxlength="25" placeholder="Name"
