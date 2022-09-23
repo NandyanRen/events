@@ -27,14 +27,14 @@
                 </div>
             </form>
             
-            <h1 class="font-bold">Current Users</h1>
+            <!-- <h1 class="font-bold">Current Users</h1>
                     <ul class="space-y-1">
                         <li class="bg-green-100 w-1/2 rounded p-1" v-for="user in users">
                             {{ user.name }}
                         </li>
                     </ul>
 
-                    {{ users }}
+                    {{ users }} -->
         </div>
     </div>
 </template>
