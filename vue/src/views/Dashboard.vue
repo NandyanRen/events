@@ -3,7 +3,10 @@
         <div class='w-1/2 m-auto border border-1 p-8'>
             <div class="flex justify-between">
                 <h1 class='font-medium text-2xl'>All Events</h1>
-                <router-link to="/event" class="text-xl bg-gray-500 text-white rounded-md px-3 text-center">Add Event</router-link>
+                <div class="space-x-3">
+                    <router-link to="/user" class="text-xl bg-gray-500 text-white rounded-md px-3 text-center">Add User</router-link>
+                    <router-link to="/event" class="text-xl bg-gray-500 text-white rounded-md px-3 text-center">Add Event</router-link>
+                </div>
             </div>
             <div>
                 <article v-for="event in events" v-bind:key="event.id">

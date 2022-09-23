@@ -2,7 +2,7 @@
     <div class='flex h-screen justify-center items-center'>
         <div class='w-1/2 h-full m-auto border border-1 p-8'>
         <div class="flex justify-between">
-            <router-link :to="{ name: 'Dashboard' }" class="pb-1 bg-gray-500 text-white rounded-md px-3 text-center">Back</router-link>
+            <router-link :to="{ name: 'Dashboard' }" class="pb-1 bg-gray-500 text-white rounded-md px-3 text-center mb-2">Back</router-link>
         </div>
 
             <form @submit.prevent="savePost">
