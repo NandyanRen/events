@@ -22,6 +22,11 @@ class User {
         return db.execute(sql);
     }
 
+    static findByName(name){
+        let sql = `SELECT * FROM users WHERE name LIKE '${name}';`
+        return db.execute(sql);
+    }
+
 }
 
 module.exports = User

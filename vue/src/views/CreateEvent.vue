@@ -13,30 +13,35 @@
                 </div>
             </div>
 
-            <form @submit.prevent="saveEvent">
-                    <div class="flex flex-col">
-                        <input type="type" name="name" id="name" v-model="name" required="" maxlength="25" placeholder="Title"
-                            class="border border-1 px-2 mb-2"/>
-                            <div class="space-y-2 ">
-                                <date-picker class="mr-2" v-model="date" :default-value="new Date()" :disabled-date="disabledBeforeTodayAndAfterAWeek"></date-picker>
-                                <date-picker class="mr-2" v-model="start_time" type="time" format="hh:mm a" :default-value="new Date().getHours" :disabled-time="notBeforeEightOClock" :minute-step="5"></date-picker>
-                                <date-picker v-model="end_time" type="time" format="hh:mm a" :default-value="new Date().getHours" :disabled-time="notBeforeEightOClock" :minute-step="5"></date-picker>
-                            </div>
+                    <div class="flex flex-col space-y-2">
+                        <input type="type" name="title" id="title" v-model="title" required="" maxlength="25" placeholder="Title"
+                            class="border border-1 px-2"/>
+                        <div class="space-y-2 ">
+                            <date-picker class="mr-2" v-model="date" :default-value="new Date()" :disabled-date="disabledBeforeTodayAndAfterAWeek"></date-picker>
+                            <date-picker class="mr-2" v-model="start_time" type="time" format="hh:mm a" :default-value="new Date().getHours" :disabled-time="notBeforeEightOClock" :minute-step="5"></date-picker>
+                            <date-picker v-model="end_time" type="time" format="hh:mm a" :default-value="new Date().getHours" :disabled-time="notBeforeEightOClock" :minute-step="5"></date-picker>
+                        </div>
+                        <input type="type" name="userName" id="userName" v-model="userName" required="" maxlength="25" placeholder="Name" class="border border-1 px-2 mb-2"/>
+                        <button @click="searchUser" type="button" class="mt-5 w-1/4 content-end py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-700">
+                                Search
+                        </button>
+
+                        <h1 class="font-bold">Guests</h1>
+                        <ul>
+                            <li v-for="(guest, index) in guests">{{ guest.name }}
+                                <button @click="removeTask(index)">x</button>
+                            </li>
+                        </ul>
                     </div>
                 <div class="flex mb-8 justify-end px-2">
-                    <button type="submit" class="mt-5 w-1/4 content-end py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-700">
+                    <button type="submit" @click="saveEvent" class="mt-5 w-1/4 content-end py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-700">
                         Submit
                     </button>
                 </div>
-            </form>
-                {{ filteredUsers }}
-                <input type="text" class="bg-gray-100 px-4 py-2" autocomplete="off" v-model="selectedUser" @input="filterUsers">
-                <div v-if=filteredUsers>
-                    <ul>
-                        <li v-for="filteredUser in filteredUsers">{{  filteredUser }}</li>
-                    </ul>
-                </div>
+            <div>
+                
             </div>
+        </div>
     </div>
 </template>
 
@@ -51,11 +56,10 @@ export default {
             users(){
                 return this.$store.getters.allUsers;
             },
-            
         },
         data(){
             return {
-                name:null,
+                title:null,
                 dateToday: new Date(),
                 date: new Date(),
                 start_time: new Date(),
@@ -63,9 +67,9 @@ export default {
                 showModal: false,
                 responseData: null,
                 success: false,
-                usersArr: Object.values(this.$store.getters.allUsers.users),
-                selectedUser: '',
-                filteredUsers: [],
+                userName: '',
+                userResult: '',
+                guests: [],
             }
         },
         methods:{
@@ -74,25 +78,27 @@ export default {
             },
             saveEvent(){
                 let model = {
-                    name: this.name,
+                    title: this.name,
                     start_date: this.date + " " + this.start_time.getHours() + ":" + this.start_time.getMinutes() + ":" + "00",
                     end_date: this.date + " " + this.end_time.getHours() + ":" + this.end_time.getMinutes() + ":" + "00",
                 }
-                this.$store.dispatch("saveEvent", model)
-                .then(response => {
-                    if(response.status === 201) {
-                        this.responseData = "Creating Event Successful!"
-                        this.success = true
-                        return this.showModal = true
-                    }
-                })
-                .catch((response) => {
-                    if(response.status != 201){
-                        this.responseData = "Creating Event Failed!"
-                        return this.showModal = true
-                    }
-                    return
-                })
+                if(this.validateForm()){
+                    this.$store.dispatch("saveEvent", model)
+                    .then(response => {
+                        if(response.status === 201) {
+                            this.responseData = "Creating Event Successful!"
+                            this.success = true
+                            return this.showModal = true
+                        }
+                    })
+                    .catch((response) => {
+                        if(response.status != 201){
+                            this.responseData = "Creating Event Failed!"
+                            return this.showModal = true
+                        }
+                        return
+                    })
+                }
             },
             disabledBeforeTodayAndAfterAWeek(date) {
                 const today = new Date();
@@ -110,12 +116,29 @@ export default {
 
                 this.showModal = false
             },
-            filterUsers(){
-                console.log(this.usersArr)
-                // this.filteredUsers = this.usersArr.filter(selectedUser => {
-                //     return selectedUser.name.toLowerCase().startsWith(this.selectedUser.toLowerCase())
-                // })
+            searchUser(){
+                let model = {
+                    name: this.userName
+                }
+                this.$store.dispatch("getUserByName", model)
+                .then(response => {
+                    if(response.user){
+                        this.guests.push(response.user)
+                        this.userName = ""
+                    } else {
+                        this.responseData = "User Not Found!"
+                        return this.showModal = true
+                    }
+                })
             },
+            removeTask(index){
+                this.guests.splice(index, 1)
+            },
+            validateForm(){
+                if(this.title && this.guests.length != 0 )
+                    return true
+                return false
+            }
         },
         beforeMount() {
             this.fetchUsers();

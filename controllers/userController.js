@@ -33,3 +33,14 @@ exports.getUserById = async(req, res, next) => {
         next(error);
     }
 }
+
+exports.findUserByName = async(req, res, next) => {
+    try {
+        let {name} = req.body
+        let [user, _] = await User.findByName(name)
+        res.status(200).json({user: user[0]})
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+}

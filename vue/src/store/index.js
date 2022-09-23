@@ -27,18 +27,18 @@ mutations:{
 },
 actions:{
     getUsers({commit}){
-        return axiosClient.get('/users').then((res) => {
-            commit("setUsersData", res.data);
-            return res;
-        });
+      return axiosClient.get('/users').then((res) => {
+          commit("setUsersData", res.data);
+          return res;
+      });
     },
-    getUserId({ commit }, id) {
-        return axiosClient
-          .get(`users/${id}`)
-          .then((res) => {
-            commit("setCurrentUser", res.data);
-            return res;
-          });
+    getUserByName({ commit }, name) {
+      return axiosClient
+        .post(`users/find`, name)
+        .then((res) => {
+          commit("setCurrentUser", res.data);
+          return res.data;
+        });
     },
     saveUser({ commit }, user){
       return axiosClient.post("/users", user);
@@ -75,7 +75,10 @@ getters:{
     return state.events;
   },
   getEvent(state){
-    return state.event
+    return state.currentEvent
+  },
+  getUser(state){
+    return state.currentUser
   },
 },
 modules:{},

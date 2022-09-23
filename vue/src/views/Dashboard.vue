@@ -12,7 +12,7 @@
                     </div>
                     <div v-html="event.name" class="truncate">{{ event.name }}</div>
 
-                    <div @click="deleteEvent(event.id)">Delete</div>
+                    <button @click="deleteEvent(event.id)">Delete</button>
                 </article>
             </div>
         </div>

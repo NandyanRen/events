@@ -6,9 +6,9 @@ router.route("/")
     .get(userController.getAllUsers)
     .post(userController.createNewUser)
 
-router
-    .route('/:id')
-    .get(userController.getUserById)
+// router
+//     .route('/:id')
+//     .get(userController.getUserById)
     // .put((req, res) => {
     //     req.params.id
     //     res.send(`Update Get With ID ${req.params.id}`)
@@ -22,5 +22,7 @@ router
     //     req.user = users[id]
     //     next()
     // })
+
+router.post('/find', (userController.findUserByName))
 
 module.exports = router
