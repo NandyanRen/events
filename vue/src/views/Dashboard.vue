@@ -15,8 +15,8 @@
                     <div class="font-medium text-xl my-5 ">
                         <router-link :to="{ name: 'CreateEvent', params: { id: event.id } }">{{ event.title }}</router-link>
                     </div>
-                    <div>{{ event.start_time}}</div>
-                    <div>{{ event.end_end }}</div>
+                    <div>{{ formatDate(event.start_time)}}</div>
+                    <div>{{ formatDate(event.end_time) }}</div>
                 </article>
             </div>
 
@@ -36,6 +36,19 @@ export default {
         fetchEvents(){
             this.$store.dispatch("getEvents");
         },
+        formatDate(date){
+            let newDate = new Date(date)
+                let newDateMonth = newDate.getMonth() + 1
+                let newDateDay = newDate.getDate()
+                let newDateHour = newDate.getHours()
+                let newDateMinutes = newDate.getMinutes()
+                if(newDateMonth.toString().length == 1)
+                    newDateMonth = "0" + newDateMonth.toString()
+                if(newDateDay.toString().length == 1)
+                    newDateDay = "0" + newDateDay.toString()
+                    
+                return this.date = newDate.getFullYear().toString() + "-" + newDateMonth + "-" + newDateDay + " " + newDateHour + ":" + newDateMinutes
+        }
         
     },
     beforeMount() {

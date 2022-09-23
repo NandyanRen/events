@@ -70,7 +70,7 @@ actions:{
 },
 getters:{
   allUsers(state) {
-    return state.users;
+    return state.events;
   },
   allEvents(state) {
     return state.events;

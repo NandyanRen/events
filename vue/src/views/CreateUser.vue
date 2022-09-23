@@ -26,12 +26,26 @@
                     </button>
                 </div>
             </form>
+            
+            <h1 class="font-bold">Current Users</h1>
+                    <ul class="space-y-1">
+                        <li class="bg-green-100 w-1/2 rounded p-1" v-for="user in users">
+                            {{ user.name }}
+                        </li>
+                    </ul>
+
+                    {{ users }}
         </div>
     </div>
 </template>
 
 <script>
 export default {
+        computed: {
+            users(){
+                return this.$store.getters.allUsers;
+            },
+        },
         data(){
             return {
                 name:null,
@@ -39,6 +53,9 @@ export default {
             }
         },
         methods:{
+            fetchUsers(){
+            this.$store.dispatch("getUsers");
+            },
             saveUser(){
                 let model = {
                     name: this.name,
@@ -64,6 +81,9 @@ export default {
                     setTimeout(() => this.$router.push({name: "Dashboard"}), 500)
                 this.showModal = false
             },
+        },
+        beforeMount() {
+            this.fetchUsers();
         },
     }
 </script>
