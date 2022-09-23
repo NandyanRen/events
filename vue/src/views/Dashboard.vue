@@ -1,21 +1,21 @@
 <template>
     <div class='flex h-screen justify-center items-center'>
         <div class='w-1/2 m-auto border border-1 p-8'>
-            <div class="flex justify-between">
-                <h1 class='font-medium text-2xl'>All Events</h1>
-                <div class="space-x-3">
-                    <router-link to="/user" class="text-xl bg-gray-500 text-white rounded-md px-3 text-center">Add User</router-link>
-                    <router-link to="/event" class="text-xl bg-gray-500 text-white rounded-md px-3 text-center">Add Event</router-link>
+            <div class="flex lg:flex-row flex-col justify-between">
+                <h1 class='font-medium text-2xl '>All Events</h1>
+                <div class="lg:space-x-3 lg:space-y-0 space-y-2 flex lg:flex-row flex-col">
+                    <router-link to="/user" class="lg:text-xl text-sm bg-gray-500 text-white rounded-md px-3 text-center">Add User</router-link>
+                    <router-link :to="{ name: 'CreateEvent', params: { id: 0 } }" class="lg:text-xl text-sm bg-gray-500 text-white rounded-md px-3 text-center">Add Event</router-link>
                 </div>
             </div>
             <div>
                 <article v-for="event in events" v-bind:key="event.id">
                     <div class="font-medium text-xl my-8 ">
-                        <router-link :to="{ name: 'UserEvent', params: { id: event.id } }">{{ event.name }}</router-link>
+                        <router-link :to="{ name: 'CreateEvent', params: { id: event.id } }">{{ event.name }}</router-link>
                     </div>
-                    <div v-html="event.name" class="truncate">{{ event.name }}</div>
+                    <div class="truncate">{{ event.start_date }}</div>
+                    <div class="truncate">{{ event.end_date }}</div>
 
-                    <button @click="deleteEvent(event.id)">Delete</button>
                 </article>
             </div>
         </div>
@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import VModal from 'vue-js-modal'
 export default {
     computed: {
         events(){
@@ -35,9 +34,7 @@ export default {
         fetchEvents(){
             this.$store.dispatch("getEvents");
         },
-        deleteEvent(id){
-            this.$store.dispatch("deleteEvent", id);
-        },
+        
     },
     beforeMount() {
         this.fetchEvents();

@@ -18,10 +18,10 @@ const routes = [
       component: CreateUser,
   },
   {
-    path: '/event',
+    path: '/event/:id',
     name: 'CreateEvent',
     component: CreateEvent,
-}
+  },
 ]
 
 const router = new VueRouter({

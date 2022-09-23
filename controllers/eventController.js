@@ -15,7 +15,6 @@ exports.createNewEvent  = async (req, res, next) => {
         let {name, start_date, end_date} = req.body;
         let event = new Event(name, start_date, end_date)
         event = await event.save()
-    
         res.status(201).json({message: "event Created"})
     } catch (error) {
         console.log(error);
